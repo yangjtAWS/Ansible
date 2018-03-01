@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+# tasks file for nodejs
+  hosts: localhost
   connection: local 
   vars:
     node_version: 6.1.0
