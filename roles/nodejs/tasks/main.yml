@@ -2,10 +2,10 @@
 # tasks file for nodejs
 
 - name: Add Nodesource Keys
-  become: yes
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
+#  become: yes
+#  apt_key:
+#    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+#    state: present
 
 # Note: "xenial" is ubuntu-speak for 16.04
 - name: Add Nodesource Apt Sources
