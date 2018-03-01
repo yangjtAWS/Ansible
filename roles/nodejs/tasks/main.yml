@@ -7,3 +7,4 @@
     enablerepo: epel
     state: installed
   with_items:
+    - npm
