@@ -1,30 +1,29 @@
 ---
-# tasks file for nodejs
+- hosts: localhost
+  connection: local 
+  vars:
+    node_version: 6.1.0
+  tasks:
+    - name: Download the nvm(node version manager) install script
+      get_url: url=https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh dest=/tmp/install.sh
 
-# name: Add Nodesource Keys
-#  become: yes
-#  apt_key:
-#    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-#    state: present
+    - name: Install dependencies 
+      apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+      with_items:
+        - git
+        - curl
+        - build-essential
+        - libssl-dev
+      become: yes
+      become_user: root
 
-# Note: "xenial" is ubuntu-speak for 16.04
-- name: Add Nodesource Apt Sources
-  become: yes
-  apt_repository:
-    repo: '{{ item }}'
-    state: present
-  with_items:
-    - 'deb https://deb.nodesource.com/node_6.x xenial main'
-    - 'deb-src https://deb.nodesource.com/node_6.x xenial main'
+    - name: Execute the nvm install script
+      shell: bash install.sh chdir=/tmp executable=/bin/bash
 
-- name: Install NodeJS and NPM
-  become: yes
-  apt:
-    name: '{{ item }}'
-    state: latest
-    update_cache: yes
-  with_items:
-    - nodejs
-    - nodejs-legacy
-    - npm
+    - name: Register the NVM_DIR
+      shell: echo $NVM_DIR
+      register: nvm_dir 
 
+    - name: Install the specified node version using the nvm command and set it as default
+      shell: . {{ nvm_dir.stdout }}/nvm.sh && nvm install {{ node_version }} && nvm run {{node_version}} --version && nvm alias default {{node_version}}
+             creates=~/.nvm/versions/node/v{{ node_version }} 
