@@ -2,6 +2,7 @@
 # tasks file for nodejs
 
 - name: Installing node and npm
-  shell: sudo yum install nodejs
+  become: yes 
+  shell: yum -y install nodejs
   ignore_errors: True
     
