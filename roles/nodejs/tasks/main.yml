@@ -3,6 +3,11 @@
 
 - name: Installing node and npm
   become: yes 
+  shell: sudo yum clean all
+  ignore_errors: True
+
+- name: Installing node and npm
+  become: yes 
   shell: yum -y install nodejs
   ignore_errors: True
     
