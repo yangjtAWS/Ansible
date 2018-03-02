@@ -3,7 +3,7 @@
 
 - name: Installing node and npm
   become: yes 
-  shell: sudo yum clean all
+  shell: yum clean all
   ignore_errors: True
 
 - name: Installing node and npm
